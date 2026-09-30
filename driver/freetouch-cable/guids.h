@@ -1,0 +1,12 @@
+/*++ FreeTouch virtual cable: class IDs. --*/
+#pragma once
+
+// {CC27C3A1-953E-4929-9A5D-2A062F3DB2BB}
+DEFINE_GUIDSTRUCT("CC27C3A1-953E-4929-9A5D-2A062F3DB2BB", CLSID_MiniportTopology_FT);
+#define CLSID_MiniportTopology_FT DEFINE_GUIDNAMED(CLSID_MiniportTopology_FT)
+
+// {F70E04D4-852A-4FF8-B7A9-6F6F767D7B50}
+DEFINE_GUIDSTRUCT("F70E04D4-852A-4FF8-B7A9-6F6F767D7B50", CLSID_MiniportWaveRT_FT);
+#define CLSID_MiniportWaveRT_FT DEFINE_GUIDNAMED(CLSID_MiniportWaveRT_FT)
+
+// Puertos estándar de PortCls (CLSID_PortTopology / CLSID_PortWaveRT).

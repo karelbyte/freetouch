@@ -1,0 +1,33 @@
+/target/
+.cargo/
+# Toolchains y builds de terceros (se descargan/compilan aparte, pesan GB).
+/third_party/wdk-nuget/
+/third_party/msbuild-vc/
+/third_party/driver-samples/
+/third_party/whisper.cpp/
+/third_party/piper/
+# Modelos y voces locales (GB, no se suben al repo).
+/models/
+/voices/
+# Claves y certificados de firma de prueba: NUNCA se suben.
+*.pfx
+*.cer
+# Salidas de compilación del driver (se regeneran).
+driver/*/x64/
+driver/*/Debug/
+driver/*/Release/
+*.pdb
+*.lib
+*.obj
+# Logs y temporales.
+/current.log
+*.log
+*~
+*.orig
+*.rej
+.DS_Store
+Thumbs.db
+# Visual Studio.
+*.user
+*.suo
+.vs/

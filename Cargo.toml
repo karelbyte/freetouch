@@ -1,0 +1,17 @@
+[package]
+name = "freetouch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.104"
+cpal = "0.18.2"
+eframe = { version = "0.35.0", features = ["glow"] }
+ndarray = "0.17.2"
+ort = "2.0.0-rc.13"
+ringbuf = "0.4"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0.151"
+tokenizers = { version = "0.23.2", default-features = false, features = ["onig"] }
+webrtc-vad = "0.4.0"
+windows = { version = "0.62.2", features = ["Win32_Media_Audio", "Win32_System_Com", "Win32_Foundation", "Win32_Devices_FunctionDiscovery", "Win32_Media_Audio_Endpoints"] }

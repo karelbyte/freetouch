@@ -1,0 +1,174 @@
+; FreeTouch virtual audio cable: 2 cables (A / B).
+; Each cable = playback endpoint + recording endpoint sharing a buffer.
+
+[Version]
+Signature   = "$Windows NT$"
+Class       = MEDIA
+ClassGUID   = {4d36e96c-e325-11ce-bfc1-08002be10318}
+Provider    = %ProviderName%
+DriverVer = 09/28/2026,10.58.28.740
+CatalogFile = freetouch-cable.cat
+PnpLockDown = 1
+
+[SourceDisksNames]
+1="FreeTouch Cable Disk","",,
+
+[SourceDisksFiles]
+freetouchcable.sys=1
+
+[Manufacturer]
+%MfgName%=FreeTouch,NTamd64
+
+[FreeTouch.NTamd64]
+%DescA%=FTCABLE_A, Root\FreeTouchCableA
+%DescB%=FTCABLE_B, Root\FreeTouchCableB
+
+[DestinationDirs]
+FTCABLE_A.CopyList=13
+FTCABLE_B.CopyList=13
+
+[FTCABLE_A.CopyList]
+freetouchcable.sys
+
+[FTCABLE_B.CopyList]
+freetouchcable.sys
+
+[FTCABLE_A]
+CopyFiles=FTCABLE_A.CopyList
+AddReg=FTCABLE.AddReg
+Include=ks.inf,kscaptur.inf
+Needs=KS.Registration,KSCAPTUR.Registration.NT
+
+[FTCABLE_B]
+CopyFiles=FTCABLE_B.CopyList
+AddReg=FTCABLE.AddReg
+Include=ks.inf,kscaptur.inf
+Needs=KS.Registration,KSCAPTUR.Registration.NT
+
+[FTCABLE.AddReg]
+HKR,,AssociatedFilters,,"wdmaud,swmidi,redbook"
+HKR,,Driver,,freetouchcable.sys
+HKR,Drivers,SubClasses,,"wave"
+HKR,Drivers\wave\wdmaud.drv,Driver,,wdmaud.drv
+HKR,Drivers\wave\wdmaud.drv,Description,,%DescA%
+
+[FTCABLE_A.Interfaces]
+AddInterface=%KSCATEGORY_AUDIO%,%KSNAME_Render%,FTCABLE_A.I.Render
+AddInterface=%KSCATEGORY_RENDER%,%KSNAME_Render%,FTCABLE_A.I.Render
+AddInterface=%KSCATEGORY_AUDIO%,%KSNAME_Capture%,FTCABLE_A.I.Capture
+AddInterface=%KSCATEGORY_CAPTURE%,%KSNAME_Capture%,FTCABLE_A.I.Capture
+AddInterface=%KSCATEGORY_TOPOLOGY%,%KSNAME_TopologyRender%,FTCABLE_A.I.TopologyRender
+AddInterface=%KSCATEGORY_TOPOLOGY%,%KSNAME_TopologyCapture%,FTCABLE_A.I.TopologyCapture
+
+[FTCABLE_B.Interfaces]
+AddInterface=%KSCATEGORY_AUDIO%,%KSNAME_Render%,FTCABLE_B.I.Render
+AddInterface=%KSCATEGORY_RENDER%,%KSNAME_Render%,FTCABLE_B.I.Render
+AddInterface=%KSCATEGORY_AUDIO%,%KSNAME_Capture%,FTCABLE_B.I.Capture
+AddInterface=%KSCATEGORY_CAPTURE%,%KSNAME_Capture%,FTCABLE_B.I.Capture
+AddInterface=%KSCATEGORY_TOPOLOGY%,%KSNAME_TopologyRender%,FTCABLE_B.I.TopologyRender
+AddInterface=%KSCATEGORY_TOPOLOGY%,%KSNAME_TopologyCapture%,FTCABLE_B.I.TopologyCapture
+
+[FTCABLE_A.I.Render]
+AddReg=FTCABLE_A.I.Render.AddReg
+[FTCABLE_A.I.Render.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%RenderNameA%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+[FTCABLE_A.I.Capture]
+AddReg=FTCABLE_A.I.Capture.AddReg
+[FTCABLE_A.I.Capture.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%CaptureNameA%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+[FTCABLE_A.I.TopologyRender]
+AddReg=FTCABLE_A.I.TopologyRender.AddReg
+[FTCABLE_A.I.TopologyRender.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%TopoRenderNameA%
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEngine_OEMFormat%,%REG_BINARY%,68,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,61,75,64,73,00,00,10,00,80,00,00,AA,00,38,9B,71,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71,81,F8,89,05,56,C3,CE,11,BF,01,00,AA,00,55,59,5A,FE,FF,02,00,80,BB,00,00,00,EE,02,00,04,00,10,00,16,00,10,00,03,00,00,00,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71
+HKR,EP\1,%PKEY_AudioEngine_OEMFormat%,%REG_BINARY%,68,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,61,75,64,73,00,00,10,00,80,00,00,AA,00,38,9B,71,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71,81,F8,89,05,56,C3,CE,11,BF,01,00,AA,00,55,59,5A,FE,FF,02,00,80,BB,00,00,00,EE,02,00,04,00,10,00,16,00,10,00,03,00,00,00,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71
+
+[FTCABLE_A.I.TopologyCapture]
+AddReg=FTCABLE_A.I.TopologyCapture.AddReg
+[FTCABLE_A.I.TopologyCapture.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%TopoCaptureNameA%
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_MICROPHONE%
+
+[FTCABLE_B.I.Render]
+AddReg=FTCABLE_B.I.Render.AddReg
+[FTCABLE_B.I.Render.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%RenderNameB%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+[FTCABLE_B.I.Capture]
+AddReg=FTCABLE_B.I.Capture.AddReg
+[FTCABLE_B.I.Capture.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%CaptureNameB%
+HKR,EP\0,%PKEY_AudioEndpoint_Supports_EventDriven_Mode%,0x00010001,0x1
+
+[FTCABLE_B.I.TopologyRender]
+AddReg=FTCABLE_B.I.TopologyRender.AddReg
+[FTCABLE_B.I.TopologyRender.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%TopoRenderNameB%
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_ANY%
+HKR,EP\0,%PKEY_AudioEngine_OEMFormat%,%REG_BINARY%,68,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,61,75,64,73,00,00,10,00,80,00,00,AA,00,38,9B,71,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71,81,F8,89,05,56,C3,CE,11,BF,01,00,AA,00,55,59,5A,FE,FF,02,00,80,BB,00,00,00,EE,02,00,04,00,10,00,16,00,10,00,03,00,00,00,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71
+HKR,EP\1,%PKEY_AudioEngine_OEMFormat%,%REG_BINARY%,68,00,00,00,00,00,00,00,00,00,00,00,00,00,00,00,61,75,64,73,00,00,10,00,80,00,00,AA,00,38,9B,71,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71,81,F8,89,05,56,C3,CE,11,BF,01,00,AA,00,55,59,5A,FE,FF,02,00,80,BB,00,00,00,EE,02,00,04,00,10,00,16,00,10,00,03,00,00,00,01,00,00,00,00,00,10,00,80,00,00,AA,00,38,9B,71
+
+[FTCABLE_B.I.TopologyCapture]
+AddReg=FTCABLE_B.I.TopologyCapture.AddReg
+[FTCABLE_B.I.TopologyCapture.AddReg]
+HKR,,CLSID,,%Proxy.CLSID%
+HKR,,FriendlyName,,%TopoCaptureNameB%
+HKR,EP\0,%PKEY_AudioEndpoint_Association%,,%KSNODETYPE_MICROPHONE%
+
+[FTCABLE_A.Services]
+AddService=freetouchcable,0x00000002,FTCABLE_Service_Inst
+
+[FTCABLE_B.Services]
+AddService=freetouchcable,0x00000002,FTCABLE_Service_Inst
+
+[FTCABLE_Service_Inst]
+DisplayName    = %ServiceDesc%
+ServiceType    = 1
+StartType      = 3
+ErrorControl   = 1
+ServiceBinary  = %13%\freetouchcable.sys
+
+[Strings]
+ProviderName = "FreeTouch"
+MfgName      = "FreeTouch"
+DescA        = "FreeTouch Cable A"
+DescB        = "FreeTouch Cable B"
+ServiceDesc  = "FreeTouch virtual audio cable"
+Proxy.CLSID  = "{17CCA71B-ECD7-11D0-B908-00A0C9223196}"
+KSCATEGORY_AUDIO   = "{6994AD04-93EF-11D0-A3CC-00A0C9223196}"
+KSCATEGORY_RENDER  = "{65E8773E-8F56-11D1-A3B7-00A0C9223196}"
+KSCATEGORY_CAPTURE = "{65E8773D-8F56-11D1-A3B7-00A0C9223196}"
+KSCATEGORY_TOPOLOGY = "{DDA54A40-1E4C-11D1-A050-405705C10000}"
+KSCATEGORY_REALTIME = "{EB115FFC-10C8-4964-831D-6DCB02E6F23F}"
+KSNAME_Render  = "FTRender"
+KSNAME_Capture = "FTCapture"
+KSNAME_TopologyRender  = "FTTopoRender"
+KSNAME_TopologyCapture = "FTTopoCapture"
+RenderNameA  = "FreeTouch A Entrada"
+CaptureNameA = "FreeTouch A Salida"
+TopoRenderNameA  = "FreeTouch A Topologia"
+TopoCaptureNameA = "FreeTouch A Topologia captura"
+RenderNameB  = "FreeTouch B Entrada"
+CaptureNameB = "FreeTouch B Salida"
+TopoRenderNameB  = "FreeTouch B Topologia"
+TopoCaptureNameB = "FreeTouch B Topologia captura"
+PKEY_AudioEndpoint_Supports_EventDriven_Mode = "{1DA5D803-DAB4-43C8-B6C6-7B876BE8D3E0},7"
+PKEY_AudioEndpoint_Association = "{1DA5D803-DAB4-43C8-B6C6-7B876BE8D3E0},4"
+PKEY_AudioEngine_OEMFormat = "{E4870E26-3CC5-4CD2-BA46-CA0A9A70ED04},3"
+REG_BINARY = 0x00000001
+KSNODETYPE_ANY = "{00000000-0000-0000-0000-000000000000}"
+KSNODETYPE_SPEAKER    = "{DFF21CE1-F70F-11D0-B917-00A0C9223196}"
+KSNODETYPE_MICROPHONE = "{DFF21BE1-F70F-11D0-B917-00A0C9223196}"
